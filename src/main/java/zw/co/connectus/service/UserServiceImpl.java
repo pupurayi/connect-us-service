@@ -2,18 +2,16 @@ package zw.co.connectus.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.TextCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import zw.co.connectus.dal.entity.User;
 import zw.co.connectus.dal.repository.UserRepository;
 import zw.co.connectus.service.mapper.DtoMapper;
-import zw.co.connectus.service.model.AuthResponseDto;
-import zw.co.connectus.service.model.CheckDto;
-import zw.co.connectus.service.model.JWT;
-import zw.co.connectus.service.model.UserDto;
+import zw.co.connectus.service.model.*;
 
+import javax.xml.ws.http.HTTPException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -45,12 +43,32 @@ public class UserServiceImpl {
 		return new CheckDto(false, null, msisdn);
 	}
 
-	public AuthResponseDto signup(UserDto userDto) {
+	public AuthResponseDto signUp(UserDto userDto) {
 
 		User user = userRepository.save(mapper.map(userDto));
+		String token = generateJwt(user);
+		return new AuthResponseDto(mapper.mapUserToProfile(user), new JWT("Bearer", token, 31536000));
+	}
+
+	public AuthResponseDto signIn(SignInDto signInDto) {
+
+		final Optional<User> byMsisdn = userRepository.findByMsisdn(signInDto.getMsisdn());
+		if (byMsisdn.isPresent()) {
+			User user = byMsisdn.get();
+			if (user.getPassword().equals(signInDto.getPassword())) {
+				String token = generateJwt(user);
+				return new AuthResponseDto(mapper.mapUserToProfile(user), new JWT("Bearer", token, 31536000));
+			}
+			throw new HTTPException(HttpStatus.UNAUTHORIZED.value());
+		}
+		throw new HTTPException(HttpStatus.NOT_FOUND.value());
+	}
+
+	public String generateJwt(User user) {
+
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.YEAR, 1);
-		String token = Jwts.builder()
+		return Jwts.builder()
 				.setId(user.getId().toString())
 				.claim("name", user.getFirstName() + " " + user.getLastName())
 				.setIssuer("connectus")
@@ -62,6 +80,5 @@ public class UserServiceImpl {
 						jwtKey
 				)
 				.compact();
-		return new AuthResponseDto(mapper.mapUserToProfile(user), new JWT("Bearer", token, 31536000));
 	}
 }

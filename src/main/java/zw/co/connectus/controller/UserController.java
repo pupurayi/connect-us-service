@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import zw.co.connectus.service.UserServiceImpl;
 import zw.co.connectus.service.model.AuthResponseDto;
 import zw.co.connectus.service.model.CheckDto;
+import zw.co.connectus.service.model.SignInDto;
 import zw.co.connectus.service.model.UserDto;
 
 @RestController
@@ -30,9 +31,15 @@ public class UserController {
 	}
 
 	@PostMapping(path = "/sign-up")
-	public AuthResponseDto signup(@RequestBody UserDto userDto) {
+	public AuthResponseDto signUp(@RequestBody UserDto userDto) {
 
-		return userService.signup(userDto);
+		return userService.signUp(userDto);
+	}
+
+	@PostMapping(path = "/sign-in")
+	public AuthResponseDto signIn(@RequestBody SignInDto signInDto) {
+
+		return userService.signIn(signInDto);
 	}
 
 }
