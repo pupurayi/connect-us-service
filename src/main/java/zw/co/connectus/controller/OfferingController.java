@@ -1,6 +1,5 @@
 package zw.co.connectus.controller;
 
-import io.jsonwebtoken.Jwt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,10 @@ public class OfferingController {
 	@PostMapping
 	public Offering addOffering(@RequestBody NewOfferingDto newOfferingDto, HttpServletRequest request) {
 
+		String authorization = request.getHeader("Authorization");
+		logger.info(authorization);
 		Base64.Decoder decoder = Base64.getUrlDecoder();
-		logger.info(String.valueOf(decoder.decode(request.getHeader("Authorization").split(".")[1])));
+		logger.info(String.valueOf(decoder.decode(authorization.split(".")[1])));
 		return offeringRepository.save(mapper.map(newOfferingDto));
 	}
 }
