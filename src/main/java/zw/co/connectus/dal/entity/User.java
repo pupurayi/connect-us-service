@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-@Where(clause = "DELETED IS NULL")
+@Where(clause = "deleted is null")
 public class User extends JpaBaseEntity {
 
 	@Column(nullable = false, unique = true)

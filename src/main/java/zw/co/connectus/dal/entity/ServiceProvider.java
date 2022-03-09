@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-@Where(clause = "DELETED IS NULL")
+@Where(clause = "deleted is null")
 public class ServiceProvider extends JpaBaseEntity {
 	private String name;
 	private String address;
