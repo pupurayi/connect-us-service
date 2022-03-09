@@ -28,10 +28,9 @@ public class OfferingController {
 	@PostMapping
 	public Offering addOffering(@RequestBody NewOfferingDto newOfferingDto, HttpServletRequest request) {
 
-		String authorization = request.getHeader("Authorization");
-		logger.info(authorization);
+		String token = request.getHeader("Authorization").replace("Bearer ", "");
 		Base64.Decoder decoder = Base64.getUrlDecoder();
-		logger.info(String.valueOf(decoder.decode(authorization.split("\\.")[1])));
+		logger.info(new String(decoder.decode(token.split("\\.")[1])));
 		return offeringRepository.save(mapper.map(newOfferingDto));
 	}
 }
