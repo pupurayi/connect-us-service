@@ -31,7 +31,7 @@ public class OfferingController {
 		String authorization = request.getHeader("Authorization");
 		logger.info(authorization);
 		Base64.Decoder decoder = Base64.getUrlDecoder();
-		logger.info(String.valueOf(decoder.decode(authorization.split(".")[1])));
+		logger.info(String.valueOf(decoder.decode(authorization.split("\\.")[1])));
 		return offeringRepository.save(mapper.map(newOfferingDto));
 	}
 }
