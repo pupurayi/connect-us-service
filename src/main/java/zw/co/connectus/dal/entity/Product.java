@@ -6,6 +6,7 @@ import zw.co.connectus.util.JpaBaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 /**
  * Product or Service
@@ -15,10 +16,28 @@ import javax.persistence.Table;
 @Where(clause = "deleted is null")
 public class Product extends JpaBaseEntity {
 
-	private String name;
+
+	private String     userId;
+	private String     name;
 	@Column(columnDefinition = "TEXT")
-	private String description;
-	private int    rating;
+	private String     description;
+	private BigDecimal price;
+	@Column(columnDefinition = "TEXT")
+	private String     imageFirst;
+	@Column(columnDefinition = "TEXT")
+	private String     imageSecond;
+	private BigDecimal lat;
+	private BigDecimal lng;
+
+	public String getUserId() {
+
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+
+		this.userId = userId;
+	}
 
 	public String getName() {
 
@@ -40,13 +59,53 @@ public class Product extends JpaBaseEntity {
 		this.description = description;
 	}
 
-	public int getRating() {
+	public BigDecimal getPrice() {
 
-		return rating;
+		return price;
 	}
 
-	public void setRating(int rating) {
+	public void setPrice(BigDecimal price) {
 
-		this.rating = rating;
+		this.price = price;
+	}
+
+	public String getImageFirst() {
+
+		return imageFirst;
+	}
+
+	public void setImageFirst(String imageFirst) {
+
+		this.imageFirst = imageFirst;
+	}
+
+	public String getImageSecond() {
+
+		return imageSecond;
+	}
+
+	public void setImageSecond(String imageSecond) {
+
+		this.imageSecond = imageSecond;
+	}
+
+	public BigDecimal getLat() {
+
+		return lat;
+	}
+
+	public void setLat(BigDecimal lat) {
+
+		this.lat = lat;
+	}
+
+	public BigDecimal getLng() {
+
+		return lng;
+	}
+
+	public void setLng(BigDecimal lng) {
+
+		this.lng = lng;
 	}
 }
