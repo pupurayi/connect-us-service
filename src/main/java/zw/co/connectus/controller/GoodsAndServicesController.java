@@ -6,30 +6,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import zw.co.connectus.dal.entity.Offering;
-import zw.co.connectus.dal.repository.OfferingRepository;
+import zw.co.connectus.dal.entity.GoodsAndServices;
+import zw.co.connectus.dal.repository.GoodsAndServicesRepository;
 import zw.co.connectus.service.mapper.DtoMapper;
-import zw.co.connectus.service.model.NewOfferingDto;
+import zw.co.connectus.service.model.NewGoodsAndServicesDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.List;
 
 @RestController
-@RequestMapping("/offering")
+@RequestMapping("/goods-and-services")
 @CrossOrigin(origins = "*")
-public class OfferingController {
+public class GoodsAndServicesController {
 
-	static Logger logger = LoggerFactory.getLogger(OfferingController.class);
+	static Logger logger = LoggerFactory.getLogger(GoodsAndServicesController.class);
 
 	@Autowired
-	private OfferingRepository offeringRepository;
+	private GoodsAndServicesRepository goodsAndServicesRepository;
 
 	@Autowired
 	DtoMapper mapper;
 
 	@PostMapping
-	public Offering addOffering(@RequestBody NewOfferingDto newOfferingDto, HttpServletRequest request) {
+	public GoodsAndServices addOffering(@RequestBody NewGoodsAndServicesDto newGoodsAndServicesDto, HttpServletRequest request) {
 
 		String token = request.getHeader("Authorization").replace("Bearer ", "");
 
@@ -37,14 +37,14 @@ public class OfferingController {
 		String json = new String(decoder.decode(token.split("\\.")[1]));
 
 		JsonObject jwt = new Gson().fromJson(json, JsonObject.class);
-		final Offering offering = mapper.map(newOfferingDto);
+		final GoodsAndServices goodsAndServices = mapper.map(newGoodsAndServicesDto);
 
-		return offeringRepository.save(offering);
+		return goodsAndServicesRepository.save(goodsAndServices);
 	}
 
 	@GetMapping
-	public List<Offering> get() {
+	public List<GoodsAndServices> get() {
 
-		return offeringRepository.findAll();
+		return goodsAndServicesRepository.findAll();
 	}
 }
