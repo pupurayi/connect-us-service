@@ -7,9 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "service_providers")
 @Where(clause = "deleted is null")
 public class ServiceProvider extends JpaBaseEntity {
+
 	private String name;
 	private String address;
 	private double lat;

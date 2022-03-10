@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * Product or Service
  */
 @Entity
-@Table
+@Table(name = "offerings")
 @Where(clause = "deleted is null")
 public class Offering extends JpaBaseEntity {
 	private String name;
