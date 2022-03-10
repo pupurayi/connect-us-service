@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "users")
 @Where(clause = "deleted is null")
 public class User extends JpaBaseEntity {
 
