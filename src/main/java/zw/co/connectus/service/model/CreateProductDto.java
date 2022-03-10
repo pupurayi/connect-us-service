@@ -3,6 +3,7 @@ package zw.co.connectus.service.model;
 public class CreateProductDto {
 
 	private String userId;
+	private String category;
 	private String name;
 	private String description;
 	private double price;
@@ -11,6 +12,16 @@ public class CreateProductDto {
 	private double lat;
 	private double lng;
 
+
+	public String getCategory() {
+
+		return category;
+	}
+
+	public void setCategory(String category) {
+
+		this.category = category;
+	}
 
 	public String getUserId() {
 

@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 @Where(clause = "deleted is null")
 public class Product extends JpaBaseEntity {
 
-
 	private String     userId;
+	private String     category;
 	private String     name;
 	@Column(columnDefinition = "TEXT")
 	private String     description;
@@ -28,6 +28,17 @@ public class Product extends JpaBaseEntity {
 	private String     imageSecond;
 	private BigDecimal lat;
 	private BigDecimal lng;
+	private int        rating;
+
+	public String getCategory() {
+
+		return category;
+	}
+
+	public void setCategory(String category) {
+
+		this.category = category;
+	}
 
 	public String getUserId() {
 
@@ -107,5 +118,15 @@ public class Product extends JpaBaseEntity {
 	public void setLng(BigDecimal lng) {
 
 		this.lng = lng;
+	}
+
+	public int getRating() {
+
+		return rating;
+	}
+
+	public void setRating(int rating) {
+
+		this.rating = rating;
 	}
 }
