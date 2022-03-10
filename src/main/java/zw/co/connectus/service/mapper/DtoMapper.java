@@ -2,9 +2,9 @@ package zw.co.connectus.service.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import zw.co.connectus.dal.entity.GoodsAndServices;
+import zw.co.connectus.dal.entity.Product;
 import zw.co.connectus.dal.entity.User;
-import zw.co.connectus.service.model.NewGoodsAndServicesDto;
+import zw.co.connectus.service.model.CreateProductDto;
 import zw.co.connectus.service.model.ProfileDto;
 import zw.co.connectus.service.model.UserDto;
 
@@ -17,7 +17,7 @@ public interface DtoMapper {
 
 	User map(UserDto user);
 
-	GoodsAndServices map(NewGoodsAndServicesDto user);
+	Product map(CreateProductDto user);
 
 	ProfileDto mapUserToProfile(User user);
 }

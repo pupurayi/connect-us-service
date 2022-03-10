@@ -11,9 +11,9 @@ import javax.persistence.Table;
  * Product or Service
  */
 @Entity
-@Table(name = "goods_and_services")
+@Table(name = "products")
 @Where(clause = "deleted is null")
-public class GoodsAndServices extends JpaBaseEntity {
+public class Product extends JpaBaseEntity {
 
 	private String name;
 	@Column(columnDefinition = "TEXT")

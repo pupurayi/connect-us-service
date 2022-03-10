@@ -6,30 +6,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import zw.co.connectus.dal.entity.GoodsAndServices;
-import zw.co.connectus.dal.repository.GoodsAndServicesRepository;
+import zw.co.connectus.dal.entity.Product;
+import zw.co.connectus.dal.repository.ProductRepository;
 import zw.co.connectus.service.mapper.DtoMapper;
-import zw.co.connectus.service.model.NewGoodsAndServicesDto;
+import zw.co.connectus.service.model.CreateProductDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.List;
 
 @RestController
-@RequestMapping("/goods-and-services")
+@RequestMapping("/product")
 @CrossOrigin(origins = "*")
-public class GoodsAndServicesController {
+public class ProductController {
 
-	static Logger logger = LoggerFactory.getLogger(GoodsAndServicesController.class);
+	static Logger logger = LoggerFactory.getLogger(ProductController.class);
 
 	@Autowired
-	private GoodsAndServicesRepository goodsAndServicesRepository;
+	private ProductRepository productRepository;
 
 	@Autowired
 	DtoMapper mapper;
 
 	@PostMapping
-	public GoodsAndServices addOffering(@RequestBody NewGoodsAndServicesDto newGoodsAndServicesDto, HttpServletRequest request) {
+	public Product createProduct(@RequestBody CreateProductDto createProductDto, HttpServletRequest request) {
 
 		String token = request.getHeader("Authorization").replace("Bearer ", "");
 
@@ -37,14 +37,14 @@ public class GoodsAndServicesController {
 		String json = new String(decoder.decode(token.split("\\.")[1]));
 
 		JsonObject jwt = new Gson().fromJson(json, JsonObject.class);
-		final GoodsAndServices goodsAndServices = mapper.map(newGoodsAndServicesDto);
+		final Product product = mapper.map(createProductDto);
 
-		return goodsAndServicesRepository.save(goodsAndServices);
+		return productRepository.save(product);
 	}
 
 	@GetMapping
-	public List<GoodsAndServices> get() {
+	public List<Product> get() {
 
-		return goodsAndServicesRepository.findAll();
+		return productRepository.findAll();
 	}
 }

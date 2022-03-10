@@ -1,11 +1,11 @@
 package zw.co.connectus.service.model;
 
-public class NewGoodsAndServicesDto {
+public class CreateProductDto {
 
 	private String name;
 	private String description;
 
-	public NewGoodsAndServicesDto(String name, String description) {
+	public CreateProductDto(String name, String description) {
 
 		this.name = name;
 		this.description = description;
