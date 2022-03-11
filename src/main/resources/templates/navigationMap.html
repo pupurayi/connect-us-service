@@ -4,46 +4,51 @@
     <title>Add Map</title>
     <meta charset="UTF-8">
     <style>
-        /* Set the size of the div element that contains the map */
         #map {
-            height: 100%;
-            /* The height is 400 pixels */
+            height: 400px;
             width: 100%;
-            /* The width is the width of the web page */
         }
     </style>
-    <link rel="stylesheet" type="text/css" href="./style.css"/>
 </head>
-<body onload="calcRoute()">
+<body>
 <h3>Navigation</h3>
 <div id="map"></div>
 
 <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3Cqt-U1lg2Iw-tGC98eaS1asohQYADSM&callback=initMap&libraries=&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&libraries=&v=weekly&channel=2"
         async
-></script>
-<script>
-    // Initialize and add the map
+>
+</script>
+<script type="application/javascript">
+    /*<![CDATA[*/
     function initMap() {
-        // The location of Uluru
-        const uluru = {lat: [${currentLat}], lng: [${currentLng}]};
-        // The map, centered at Uluru
+        /*<![CDATA[*/
+        const current = {
+            lat: [[${currentLat}]],
+            lng: [[${currentLng}]]
+        };
+        const destination = {
+            lat: [[${destinationLat}]],
+            lng: [[${destinationLng}]]
+        };
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 4,
-            center: uluru,
+            center: current,
         });
-        // The marker, positioned at Uluru
-        const marker = new google.maps.Marker({
-            position: uluru,
+        const currentMarker = new google.maps.Marker({
+            position: current,
+            map: map,
+        });
+        const destinationMarker = new google.maps.Marker({
+            position: destination,
             map: map,
         });
     }
 
-    function calcRoute() {
-        var end = document.getElementById('end').value;
+    document.onload = function calcRoute() {
         var request = {
-            origin: [${destinationLat}],
-            destination: [${destinationLng}],
+            origin: [[${destinationLat}]],
+            destination: [[${destinationLng}]],
             travelMode: 'DRIVING'
         };
         directionsService.route(request, function (result, status) {
@@ -51,7 +56,8 @@
                 directionsRenderer.setDirections(result);
             }
         });
-    }
+    };
+    /*]]>*/
 </script>
 </body>
 </html>
