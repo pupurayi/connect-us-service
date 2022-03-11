@@ -14,11 +14,12 @@ public class NavigationController {
 	                        @RequestParam("destinationLat") double destinationLat,
 	                        @RequestParam("destinationLng") double destinationLng
 	) {
+
 		ModelAndView modelAndView = new ModelAndView("navigationMap");
 		modelAndView.addObject("currentLat", currentLat);
-		modelAndView.addObject("currentLat", currentLat);
-		modelAndView.addObject("currentLat", currentLat);
-		modelAndView.addObject("currentLat", currentLat);
+		modelAndView.addObject("currentLng", currentLng);
+		modelAndView.addObject("destinationLat", destinationLat);
+		modelAndView.addObject("destinationLng", destinationLng);
 		return modelAndView;
 	}
 
