@@ -6,7 +6,7 @@
     <style>
         /* Set the size of the div element that contains the map */
         #map {
-            height: 400px;
+            height: 100%;
             /* The height is 400 pixels */
             width: 100%;
             /* The width is the width of the web page */
@@ -14,10 +14,8 @@
     </style>
     <link rel="stylesheet" type="text/css" href="./style.css"/>
 </head>
-<body>
-<h3>My Google Maps Demo</h3>
+<body onload="calcRoute()">
 <div id="map"></div>
-
 <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3Cqt-U1lg2Iw-tGC98eaS1asohQYADSM&callback=initMap&libraries=&v=weekly"
         async
@@ -26,7 +24,7 @@
     // Initialize and add the map
     function initMap() {
         // The location of Uluru
-        const uluru = {lat: -25.344, lng: 131.036};
+        const uluru = {lat: [${currentLat}], lng: [${currentLng}]};
         // The map, centered at Uluru
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 4,
@@ -36,6 +34,20 @@
         const marker = new google.maps.Marker({
             position: uluru,
             map: map,
+        });
+    }
+
+    function calcRoute() {
+        var end = document.getElementById('end').value;
+        var request = {
+            origin: [${destinationLat}],
+            destination: [${destinationLng}],
+            travelMode: 'DRIVING'
+        };
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                directionsRenderer.setDirections(result);
+            }
         });
     }
 </script>
