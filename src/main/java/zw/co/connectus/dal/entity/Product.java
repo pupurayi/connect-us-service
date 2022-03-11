@@ -28,7 +28,7 @@ public class Product extends JpaBaseEntity {
 	private String     imageSecond;
 	private BigDecimal lat;
 	private BigDecimal lng;
-	private int        rating;
+	private int        rating = 3;
 
 	public String getCategory() {
 
