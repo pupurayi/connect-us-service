@@ -3,7 +3,6 @@ FROM maven:3.8.4-openjdk-11 AS MAVEN_BUILD
 MAINTAINER connectus.co.zw
 
 COPY pom.xml /build/
-COPY settings.xml /build/
 COPY src /build/src/
 
 WORKDIR /build/
