@@ -47,7 +47,7 @@ public class UserServiceImpl {
 
 		User user = userRepository.save(mapper.map(userDto));
 		String token = generateJwt(user);
-		return new AuthResponseDto(mapper.mapUserToProfile(user), new JWT("Bearer", token, 31536000));
+		return new AuthResponseDto(mapper.map(user), new JWT("Bearer", token, 31536000));
 	}
 
 	public AuthResponseDto signIn(SignInDto signInDto) {
@@ -57,7 +57,7 @@ public class UserServiceImpl {
 			User user = byMsisdn.get();
 			if (user.getPassword().equals(signInDto.getPassword())) {
 				String token = generateJwt(user);
-				return new AuthResponseDto(mapper.mapUserToProfile(user), new JWT("Bearer", token, 31536000));
+				return new AuthResponseDto(mapper.map(user), new JWT("Bearer", token, 31536000));
 			}
 			throw new HTTPException(HttpStatus.UNAUTHORIZED.value());
 		}
