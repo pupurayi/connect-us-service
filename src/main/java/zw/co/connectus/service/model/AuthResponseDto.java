@@ -2,32 +2,27 @@ package zw.co.connectus.service.model;
 
 public class AuthResponseDto {
 
-	ProfileDto profile;
+	UserDto user;
 	JWT        jwt;
 
-	public AuthResponseDto(ProfileDto profile, JWT jwt) {
-
-		this.profile = profile;
+	public AuthResponseDto(UserDto user, JWT jwt) {
+		this.user = user;
 		this.jwt = jwt;
 	}
 
-	public ProfileDto getProfile() {
-
-		return profile;
+	public UserDto getUser() {
+		return user;
 	}
 
-	public void setProfile(ProfileDto profile) {
-
-		this.profile = profile;
+	public void setUser(UserDto user) {
+		this.user = user;
 	}
 
 	public JWT getJwt() {
-
 		return jwt;
 	}
 
 	public void setJwt(JWT jwt) {
-
 		this.jwt = jwt;
 	}
 }
