@@ -16,6 +16,8 @@ import java.math.BigDecimal;
 @Where(clause = "deleted is null")
 public class Product extends JpaBaseEntity {
 
+	// add Product Tags, add Recommended Products endpoint, add rate random products' endpoint, hotlink whatsapp & location
+
 	private String     userId;
 	private String     category;
 	private String     name;
