@@ -32,26 +32,26 @@ public class UserController {
         return userService.check(msisdn);
     }
 
-    @PostMapping(path = "/sign-up")
-    public AuthResponseDto signUp(@RequestBody UserDto userDto) {
-
-        return userService.signUp(userDto);
-    }
-
     @PostMapping(path = "/sign-in")
-    public AuthResponseDto signIn(@RequestBody SignInDto signInDto) {
+    public ResponseEntity<UserDto> signIn(@RequestBody SignInDto signInDto) {
 
         return userService.signIn(signInDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+
+        return userService.createUser(userDto);
+    }
+
+    @PutMapping
+    public ResponseEntity<UserDto> put(@RequestBody UserDto userDto) {
+        return userService.put(userDto);
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> get(@PathVariable("userId") UUID userId) {
 
         return userService.getUserById(userId);
-    }
-
-    @PutMapping
-    public ResponseEntity<UserDto> put(@RequestBody UserDto userDto) {
-        return userService.put(userDto);
     }
 }

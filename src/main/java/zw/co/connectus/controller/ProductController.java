@@ -10,6 +10,7 @@ import zw.co.connectus.service.mapper.DtoMapper;
 import zw.co.connectus.service.model.CreateProductDto;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/product")
@@ -29,8 +30,13 @@ public class ProductController {
         return productRepository.save(mapper.map(createProductDto));
     }
 
-    @GetMapping
-    public List<Product> get() {
+    @GetMapping("/user/{userId}")
+    public List<Product> findAllByUserId(@PathVariable("userId") UUID userId) {
+        return productRepository.findAllByUserId(userId);
+    }
+
+    @GetMapping("/recommended/user/{userId}")
+    public List<Product> findRecommendedProducts(@PathVariable("userId") UUID userId) {
         return productRepository.findAll();
     }
 }

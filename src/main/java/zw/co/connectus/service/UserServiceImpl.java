@@ -1,9 +1,6 @@
 package zw.co.connectus.service;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,8 +10,6 @@ import zw.co.connectus.service.mapper.DtoMapper;
 import zw.co.connectus.service.model.*;
 
 import javax.xml.ws.http.HTTPException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,10 +17,7 @@ import java.util.UUID;
 public class UserServiceImpl {
 
     @Autowired
-    DtoMapper mapper;
-
-    @Value("${app.jwt.key:87b711b1-c005-4e8d-b0b0-819453ac577b}")
-    private String jwtKey;
+    private DtoMapper mapper;
 
     @Autowired
     private UserRepository userRepository;
@@ -45,25 +37,22 @@ public class UserServiceImpl {
         return new CheckDto(false, null, msisdn);
     }
 
-    public AuthResponseDto signUp(UserDto userDto) {
-
-        User user = userRepository.save(mapper.map(userDto));
-        String token = generateJwt(user);
-        return new AuthResponseDto(mapper.map(user), new JWT("Bearer", token, 31536000));
-    }
-
-    public AuthResponseDto signIn(SignInDto signInDto) {
+    public ResponseEntity<UserDto> signIn(SignInDto signInDto) {
 
         final Optional<User> byMsisdn = userRepository.findByMsisdn(signInDto.getMsisdn());
         if (byMsisdn.isPresent()) {
             User user = byMsisdn.get();
             if (user.getPassword().equals(signInDto.getPassword())) {
-                String token = generateJwt(user);
-                return new AuthResponseDto(mapper.map(user), new JWT("Bearer", token, 31536000));
+                return ResponseEntity.ok(mapper.map(user));
             }
             throw new HTTPException(HttpStatus.UNAUTHORIZED.value());
         }
         throw new HTTPException(HttpStatus.NOT_FOUND.value());
+    }
+
+    public ResponseEntity<UserDto> createUser(UserDto userDto) {
+        User user = userRepository.save(mapper.map(userDto));
+        return ResponseEntity.ok(mapper.map(user));
     }
 
     public ResponseEntity<UserDto> getUserById(UUID userId) {
@@ -81,24 +70,5 @@ public class UserServiceImpl {
             return ResponseEntity.ok(mapper.map(user));
         }
         return ResponseEntity.notFound().build();
-    }
-
-
-    public String generateJwt(User user) {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, 1);
-        return Jwts.builder()
-                .setId(user.getId().toString())
-                .claim("name", user.getFirstName() + " " + user.getLastName())
-                .setIssuer("connectus")
-                .claim("scope", "user")
-                .setIssuedAt(new Date())
-                .setExpiration(calendar.getTime())
-                .signWith(
-                        SignatureAlgorithm.HS256,
-                        jwtKey
-                )
-                .compact();
     }
 }
