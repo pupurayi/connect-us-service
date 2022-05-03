@@ -38,6 +38,13 @@ public class UserController {
         return userService.signIn(signInDto);
     }
 
+
+    @GetMapping("/reset-password/{msisdn}")
+    public ResponseEntity resetPassword(@PathVariable("msisdn") String msisdn) {
+
+        return userService.resetPassword(msisdn);
+    }
+
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
 

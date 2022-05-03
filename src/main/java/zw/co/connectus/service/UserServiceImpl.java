@@ -50,6 +50,21 @@ public class UserServiceImpl {
         throw new HTTPException(HttpStatus.NOT_FOUND.value());
     }
 
+
+    public ResponseEntity resetPassword(String msisdn) {
+
+        final Optional<User> byMsisdn = userRepository.findByMsisdn(msisdn);
+        if (byMsisdn.isPresent()) {
+            User user = byMsisdn.get();
+            String password = UUID.randomUUID().toString().substring(0, 7);
+            user.setPassword(password);
+            userRepository.save(user);
+            // TODO send email
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     public ResponseEntity<UserDto> createUser(UserDto userDto) {
         User user = userRepository.save(mapper.map(userDto));
         return ResponseEntity.ok(mapper.map(user));
