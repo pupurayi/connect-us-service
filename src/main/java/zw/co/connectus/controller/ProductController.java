@@ -32,7 +32,7 @@ public class ProductController {
 
     @GetMapping("/user/{userId}")
     public List<Product> findAllByUserId(@PathVariable("userId") UUID userId) {
-        return productRepository.findAllByUserId(userId);
+        return productRepository.findAllByUserId(userId.toString());
     }
 
     @GetMapping("/recommended/user/{userId}")
