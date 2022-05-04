@@ -39,4 +39,9 @@ public class ProductController {
     public List<Product> findRecommendedProducts(@PathVariable("userId") UUID userId) {
         return productRepository.findAll();
     }
+
+    @GetMapping("/rating/user/{userId}")
+    public List<Product> getProductsForUserRating(@PathVariable("userId") UUID userId) {
+        return productRepository.findAll().subList(0, 2);
+    }
 }
