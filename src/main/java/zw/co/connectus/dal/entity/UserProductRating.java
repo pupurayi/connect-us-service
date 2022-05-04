@@ -19,7 +19,7 @@ public class UserProductRating extends JpaBaseEntity {
     private String productId;
     @Column
 
-    private Boolean like;
+    private boolean like;
 
     public String getUserId() {
         return userId;
