@@ -4,6 +4,7 @@ package zw.co.connectus.dal.entity;
 import org.hibernate.annotations.Where;
 import zw.co.connectus.util.JpaBaseEntity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -11,8 +12,13 @@ import javax.persistence.Table;
 @Table(name = "user_product_rating")
 @Where(clause = "deleted is null")
 public class UserProductRating extends JpaBaseEntity {
+    @Column
     private String userId;
+    @Column
+
     private String productId;
+    @Column
+
     private Boolean like;
 
     public String getUserId() {
