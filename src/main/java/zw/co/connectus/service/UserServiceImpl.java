@@ -101,7 +101,7 @@ public class UserServiceImpl {
                 UserProductRating userProductRating = new UserProductRating();
                 userProductRating.setUserId(userId.toString());
                 userProductRating.setProductId(entry.getKey().toString());
-                userProductRating.setLike(entry.getValue());
+                userProductRating.setLiked(entry.getValue());
                 userProductRatingRepository.save(userProductRating);
             }
         }
