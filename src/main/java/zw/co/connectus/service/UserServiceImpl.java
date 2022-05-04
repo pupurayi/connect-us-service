@@ -5,11 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import zw.co.connectus.dal.entity.User;
+import zw.co.connectus.dal.entity.UserProductRating;
+import zw.co.connectus.dal.repository.UserProductRatingRepository;
 import zw.co.connectus.dal.repository.UserRepository;
 import zw.co.connectus.service.mapper.DtoMapper;
 import zw.co.connectus.service.model.*;
 
 import javax.xml.ws.http.HTTPException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,6 +24,9 @@ public class UserServiceImpl {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserProductRatingRepository userProductRatingRepository;
 
     public Optional<User> findByMsisdn(String msisdn) {
 
@@ -85,5 +91,20 @@ public class UserServiceImpl {
             return ResponseEntity.ok(mapper.map(user));
         }
         return ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<String> rateProducts(UUID userId, Map<UUID, Boolean> ratings) {
+        Optional<User> byId = userRepository.findById(userId);
+        if (byId.isPresent()) {
+            for (var entry : ratings.entrySet()) {
+
+                UserProductRating userProductRating = new UserProductRating();
+                userProductRating.setUserId(userId.toString());
+                userProductRating.setProductId(entry.getKey().toString());
+                userProductRating.setLike(entry.getValue());
+                userProductRatingRepository.save(userProductRating);
+            }
+        }
+        return ResponseEntity.ok("Complete");
     }
 }

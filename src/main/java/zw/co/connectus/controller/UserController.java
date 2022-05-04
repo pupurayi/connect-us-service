@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import zw.co.connectus.dal.entity.Product;
 import zw.co.connectus.dal.entity.User;
 import zw.co.connectus.service.UserServiceImpl;
 import zw.co.connectus.service.mapper.DtoMapper;
@@ -14,6 +15,7 @@ import zw.co.connectus.service.model.CheckDto;
 import zw.co.connectus.service.model.SignInDto;
 import zw.co.connectus.service.model.UserDto;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -60,5 +62,10 @@ public class UserController {
     public ResponseEntity<UserDto> get(@PathVariable("userId") UUID userId) {
 
         return userService.getUserById(userId);
+    }
+
+    @PostMapping("/products/rate/{userId}")
+    public ResponseEntity<String> rateProducts(@PathVariable("userId") UUID userId, @RequestBody Map<UUID, Boolean> ratings) {
+        return userService.rateProducts(userId, ratings);
     }
 }
