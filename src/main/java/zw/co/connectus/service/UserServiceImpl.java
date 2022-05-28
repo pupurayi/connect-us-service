@@ -111,7 +111,8 @@ public class UserServiceImpl {
         List<UserDto> users = userRepository.findAll()
                 .stream()
                 .map(mapper::map)
-                .filter(user -> !Objects.equals(user.getId(), userId)).collect(Collectors.toList());
+                .filter(userDto -> !userDto.getId().equals(userId))
+                .collect(Collectors.toList());
         return ResponseEntity.ok(users);
     }
 }
