@@ -64,6 +64,13 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
+    @GetMapping("/record-product-order/{userId}")
+    public ResponseEntity<UserDto> recordProductOrder(@PathVariable("userId") UUID userId, @RequestParam("productId") UUID productId) {
+
+        // TODO record
+        return userService.getUserById(userId);
+    }
+
     @GetMapping("/service-providers/{userId}")
     public ResponseEntity<List<UserDto>> getServiceProviders(@PathVariable("userId") UUID userId) {
 
