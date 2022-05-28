@@ -1,60 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Add Map</title>
+    <title>ConnectUs Map</title>
     <meta charset="UTF-8">
-    <style>
-        #map {
-            height: 400px;
-            width: 100%;
-        }
-    </style>
 </head>
 <body>
-<h3>Navigation</h3>
-<div id="map"></div>
-
-<script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&libraries=&v=weekly&channel=2"
-        async
->
-</script>
-<script type="application/javascript">
-    /*<![CDATA[*/
-    function initMap() {
-        /*<![CDATA[*/
-        const current = {
-            lat: [[${currentLat}]],
-            lng: [[${currentLng}]]
-        };
-        const destination = {
-            lat: [[${destinationLat}]],
-            lng: [[${destinationLng}]]
-        };
-        const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 4,
-            center: current,
-        });
-        const currentMarker = new google.maps.Marker({
-            position: current,
-            map: map,
-        });
-        const destinationMarker = new google.maps.Marker({
-            position: destination,
-            map: map,
-        });
-        var request = {
-            origin: [[${destinationLat}]],
-            destination: [[${destinationLng}]],
-            travelMode: 'DRIVING'
-        };
-        directionsService.route(request, function (result, status) {
-            if (status == 'OK') {
-                directionsRenderer.setDirections(result);
-            }
-        });
-    }
-    /*]]>*/
-</script>
+<div id="iframeDisplay"></div>
 </body>
+<script>
+    document.getElementById("iframeDisplay").innerHTML = "<iframe width=\"100%\" height=\"600px\"  style=\"border:0\" loading=\"lazy\" allowfullscreen\n" +
+        "        src=\"https://www.google.com/maps/embed/v1/directions?key=AIzaSyCfGKU4Ee79CxE4Y0Paed83OuZA1TTKwUM&origin=[[${currentLat}]],[[${currentLng}]]&destination=[[${destinationLat}]],[[${destinationLng}]]\"></iframe>";
+</script>
 </html>

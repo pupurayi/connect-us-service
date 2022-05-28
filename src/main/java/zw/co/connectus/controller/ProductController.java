@@ -43,6 +43,8 @@ public class ProductController {
 
     @GetMapping("/rating/user/{userId}")
     public List<Product> getProductsForUserRating(@PathVariable("userId") UUID userId) {
+        // least rated products
+        // todo rating syncer scheduled 1 hour
         return productRepository.findAll().subList(0, 2);
     }
 }
