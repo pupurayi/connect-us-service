@@ -10,7 +10,6 @@ import zw.co.connectus.service.mapper.DtoMapper;
 import zw.co.connectus.service.model.CreateProductDto;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -38,6 +37,11 @@ public class ProductController {
 
     @GetMapping("/recommended/user/{userId}")
     public List<Product> findRecommendedProducts(@PathVariable("userId") UUID userId) {
+        return productRepository.findAll();
+    }
+
+    @GetMapping("/search/{userId}")
+    public List<Product> searchProducts(@PathVariable("userId") UUID userId, @RequestParam("category") String category, @RequestParam("name") String name, @RequestParam("sortBy") String sortBy) {
         return productRepository.findAll();
     }
 
