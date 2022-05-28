@@ -12,9 +12,11 @@ import zw.co.connectus.service.mapper.DtoMapper;
 import zw.co.connectus.service.model.*;
 
 import javax.xml.ws.http.HTTPException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl {
@@ -106,5 +108,13 @@ public class UserServiceImpl {
             }
         }
         return ResponseEntity.ok("Complete");
+    }
+
+    public ResponseEntity<List<UserDto>> getServiceProviders(UUID userId) {
+        List<UserDto> users = userRepository.findAll()
+                .stream()
+                .map(mapper::map)
+                .filter(user -> user.getId().equals(userId)).collect(Collectors.toList());
+        return ResponseEntity.ok(users);
     }
 }

@@ -15,6 +15,7 @@ import zw.co.connectus.service.model.CheckDto;
 import zw.co.connectus.service.model.SignInDto;
 import zw.co.connectus.service.model.UserDto;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -40,7 +41,6 @@ public class UserController {
         return userService.signIn(signInDto);
     }
 
-
     @GetMapping("/reset-password/{msisdn}")
     public ResponseEntity resetPassword(@PathVariable("msisdn") String msisdn) {
 
@@ -62,6 +62,12 @@ public class UserController {
     public ResponseEntity<UserDto> get(@PathVariable("userId") UUID userId) {
 
         return userService.getUserById(userId);
+    }
+
+    @GetMapping("/service-providers/{userId}")
+    public ResponseEntity<List<UserDto>> getServiceProviders(@PathVariable("userId") UUID userId) {
+
+        return userService.getServiceProviders(userId);
     }
 
     @PostMapping("/products/rate/{userId}")
