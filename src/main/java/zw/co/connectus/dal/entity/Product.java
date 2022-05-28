@@ -26,8 +26,6 @@ public class Product extends JpaBaseEntity {
 	private BigDecimal price;
 	@Column(columnDefinition = "TEXT")
 	private String     imageFirst;
-	@Column(columnDefinition = "TEXT")
-	private String     imageSecond;
 	private BigDecimal lat    = BigDecimal.valueOf(-17.779172389675505);
 	private BigDecimal lng    = BigDecimal.valueOf(31.014082820096977);
 	private int        rating = 3;
@@ -90,16 +88,6 @@ public class Product extends JpaBaseEntity {
 	public void setImageFirst(String imageFirst) {
 
 		this.imageFirst = imageFirst;
-	}
-
-	public String getImageSecond() {
-
-		return imageSecond;
-	}
-
-	public void setImageSecond(String imageSecond) {
-
-		this.imageSecond = imageSecond;
 	}
 
 	public BigDecimal getLat() {
