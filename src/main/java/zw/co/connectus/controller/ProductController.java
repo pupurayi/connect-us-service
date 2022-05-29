@@ -149,6 +149,8 @@ public class ProductController {
                         return ResponseEntity.ok(productStream.sorted(Comparator.comparing(Product::getName)).collect(Collectors.toList()));
                     case "Created":
                         return ResponseEntity.ok(productStream.sorted(Comparator.comparing(Product::getCreated)).collect(Collectors.toList()));
+                    default:
+                        return ResponseEntity.ok(productStream.collect(Collectors.toList()));
                 }
             } else {
                 return ResponseEntity.ok(productStream.collect(Collectors.toList()));
