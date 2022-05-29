@@ -3,16 +3,11 @@
 <head>
     <title>Recommendations</title>
     <meta charset="UTF-8">
-
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <style>
         #map {
             height: 100%;
         }
 
-        /*
-         * Optional: Makes the sample page fill the window.
-         */
         html,
         body {
             height: 100%;
@@ -21,28 +16,51 @@
         }
     </style>
 </head>
-<body onload="initMap()">
-<!--[[${markerList}]]-->
+<body>
 <div id="map"></div>
 <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfGKU4Ee79CxE4Y0Paed83OuZA1TTKwUM&callback=initMap&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3Cqt-U1lg2Iw-tGC98eaS1asohQYADSM&callback=initMap"
         defer
 ></script>
-<script>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
     function initMap() {
-        const myLatLng = {lat: [[${currentLat}]], lng: [[${currentLng}]],};
+        const mapOptions = {
+            center: new google.maps.LatLng([[${currentLat}]], [[${currentLng}]]),
+            zoom: 16
+        }
+        const map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-        const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 4,
-                center: myLatLng,
-            }
-        );
+        const markerList = [[${markerList}]];
+        for (let i = 0; i < markerList.length; i++) {
+            const marker = new google.maps.Marker({
+                title: markerList[i]["productName"],
+                content: "$" + markerList[i]["price"],
+                position: new google.maps.LatLng(markerList[i]["lat"], markerList[i]["lng"]),
+                map: map,
+            });
+            const contentString =
+                '<div id="content">' +
+                '<div id="siteNotice">' +
+                "</div>" +
+                '<h1 id="firstHeading" class="firstHeading">"+markerList[i]["productName"]+"</h1>' +
+                '<div id="bodyContent">' +
+                "<p><b>Price: </b>" + markerList[i]["price"] + "</p>" +
+                "</div>" +
+                "</div>";
 
-        new google.maps.Marker({
-            position: myLatLng,
-            map,
-            title: "Hello World!",
-        });
+            const infowindow = new google.maps.InfoWindow({
+                content: contentString,
+            });
+            marker.addListener("click", () => {
+                infowindow.open({
+                    anchor: marker,
+                    map,
+                    shouldFocus: false,
+                });
+            });
+        }
+        /*]]>*/
     }
 </script>
 </body>
