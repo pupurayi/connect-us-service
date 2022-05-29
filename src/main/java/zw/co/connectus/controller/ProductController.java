@@ -84,9 +84,9 @@ public class ProductController {
     private boolean isNotDisliked(Product product, List<String> disliked) {
         String productId = product.getId().toString();
         if (disliked.contains(productId)) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
 
