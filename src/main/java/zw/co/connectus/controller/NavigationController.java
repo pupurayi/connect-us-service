@@ -34,7 +34,7 @@ public class NavigationController {
                             @RequestParam("markers") String markers) {
 
         List<Marker> markerList = new Gson().fromJson(markers, ArrayList.class);
-        ModelAndView modelAndView = new ModelAndView("navigationMap");
+        ModelAndView modelAndView = new ModelAndView("recommendationsMap");
         modelAndView.addObject("currentLat", currentLat);
         modelAndView.addObject("currentLng", currentLng);
         modelAndView.addObject("markerList", markerList);
