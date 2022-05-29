@@ -17,6 +17,7 @@ import zw.co.connectus.util.ResponseDto;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/product")
@@ -129,37 +130,29 @@ public class ProductController {
     }
 
     @GetMapping("/search/{userId}")
-    public ResponseEntity<List<Product>> searchProducts(@PathVariable("userId") UUID userId, @RequestParam("category") String category, @RequestParam("name") String name, @RequestParam("lat") double lat, @RequestParam("lng") double lng, @RequestParam("sortBy") String sortBy) {
+    public ResponseEntity<List<Product>> searchProducts(@PathVariable("userId") UUID userId, @RequestParam(value = "category", required = false) String category, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "lat", defaultValue = "0") double lat, @RequestParam(value = "lng", defaultValue = "0") double lng, @RequestParam(value = "sortBy", required = false) String sortBy) {
         Optional<User> byId = userService.findById(userId);
         if (byId.isPresent()) {
             User user = byId.get();
-            List<Product> all = productRepository.findAllByUserIdNot(userId.toString());
-            if (category != null) {
-                all = all.stream().filter(product -> !product.getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
-            }
-            if (name != null) {
-                all = all.stream().filter(product -> !product.getName().toLowerCase().contains(name)).collect(Collectors.toList());
-            }
-            if (lat != 0 && lng != 0) {
-                all = all.stream().filter(product -> filterProximity(user, lat, lng, product)).collect(Collectors.toList());
-            }
+            Stream<Product> productStream = productRepository.findAllByUserIdNot(userId.toString())
+                    .stream()
+                    .filter(product -> category == null || product.getCategory().equalsIgnoreCase(category))
+                    .filter(product -> name == null || product.getName().toLowerCase().contains(name.toLowerCase()))
+                    .filter(product -> (lat == 0 || lng == 0) || filterProximity(user, lat, lng, product));
             if (sortBy != null) {
                 switch (sortBy) {
                     case "Price":
-                        all = all.stream().sorted(Comparator.comparing(Product::getPrice)).collect(Collectors.toList());
-                        break;
+                        return ResponseEntity.ok(productStream.sorted(Comparator.comparing(Product::getPrice)).collect(Collectors.toList()));
                     case "Rating":
-                        all = all.stream().sorted(Comparator.comparing(Product::getRating)).collect(Collectors.toList());
-                        break;
+                        return ResponseEntity.ok(productStream.sorted(Comparator.comparing(Product::getRating)).collect(Collectors.toList()));
                     case "Name":
-                        all = all.stream().sorted(Comparator.comparing(Product::getName)).collect(Collectors.toList());
-                        break;
+                        return ResponseEntity.ok(productStream.sorted(Comparator.comparing(Product::getName)).collect(Collectors.toList()));
                     case "Created":
-                        all = all.stream().sorted(Comparator.comparing(Product::getCreated)).collect(Collectors.toList());
-                        break;
+                        return ResponseEntity.ok(productStream.sorted(Comparator.comparing(Product::getCreated)).collect(Collectors.toList()));
                 }
+            } else {
+                return ResponseEntity.ok(productStream.collect(Collectors.toList()));
             }
-            return ResponseEntity.ok(all);
         }
         return ResponseEntity.notFound().build();
     }

@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>ConnectUs Map</title>
+    <title>Recommendations</title>
     <meta charset="UTF-8">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <style>
+        #map {
+            height: 100%;
+        }
+
+        /*
+         * Optional: Makes the sample page fill the window.
+         */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
-<body>
-[[${markerList}]]
+<body onload="initMap()">
+<!--[[${markerList}]]-->
+<div id="map"></div>
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfGKU4Ee79CxE4Y0Paed83OuZA1TTKwUM&callback=initMap&v=weekly"
+        defer
+></script>
+<script>
+    function initMap() {
+        const myLatLng = {lat: [[${currentLat}]], lng: [[${currentLng}]],};
+
+        const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 4,
+                center: myLatLng,
+            }
+        );
+
+        new google.maps.Marker({
+            position: myLatLng,
+            map,
+            title: "Hello World!",
+        });
+    }
+</script>
 </body>
 </html>
