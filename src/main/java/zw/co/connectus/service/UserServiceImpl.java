@@ -86,7 +86,19 @@ public class UserServiceImpl {
     public ResponseEntity<UserDto> put(UserDto userDto) {
         Optional<User> byId = userRepository.findById(userDto.getId());
         if (byId.isPresent()) {
-            User user = userRepository.save(mapper.map(userDto));
+            User user = byId.get();
+            user.setEmail(userDto.getEmail());
+            user.setFirstName(userDto.getFirstName());
+            user.setLastName(userDto.getLastName());
+            user.setAvatar(userDto.getAvatar());
+            user.setGender(userDto.getGender());
+            user.setDob(userDto.getDob());
+            user.setEthnicity(userDto.getEthnicity());
+            user.setReligion(userDto.getReligion());
+            user.setTownship(userDto.getTownship());
+            user.setTown(userDto.getTown());
+            user.setPassword(userDto.getPassword());
+            user = userRepository.save(user);
             return ResponseEntity.ok(mapper.map(user));
         }
         return ResponseEntity.notFound().build();
