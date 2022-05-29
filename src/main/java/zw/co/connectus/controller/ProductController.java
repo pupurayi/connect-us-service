@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     @GetMapping("/recommended/user/{userId}")
-    public List<Product> findRecommendedProducts(@PathVariable("userId") UUID userId) {
+    public List<Product> findRecommendedProducts(@PathVariable("userId") UUID userId, @RequestParam("lat") double lat, @RequestParam("lng") String lng) {
         return productRepository.findAll();
     }
 
