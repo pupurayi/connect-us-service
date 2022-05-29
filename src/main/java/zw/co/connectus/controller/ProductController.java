@@ -3,6 +3,7 @@ package zw.co.connectus.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.connectus.dal.entity.Product;
 import zw.co.connectus.dal.repository.ProductRepository;
@@ -28,6 +29,12 @@ public class ProductController {
     @PostMapping
     public Product createProduct(@RequestBody CreateProductDto createProductDto) {
         return productRepository.save(mapper.map(createProductDto));
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<String> delete(@PathVariable("productId") UUID productId) {
+        productRepository.deleteById(productId);
+        return ResponseEntity.ok("Successfully deleted product!");
     }
 
     @GetMapping("/user/{userId}")
