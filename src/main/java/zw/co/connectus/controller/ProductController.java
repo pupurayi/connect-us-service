@@ -63,12 +63,16 @@ public class ProductController {
             User user = byId.get();
             List<Product> allByUserIdNot = productRepository.findAllByUserIdNot(userId.toString());
 
-            Stream<Product> productStream = allByUserIdNot.stream().filter(product -> filterProximity(user, lat, lng, product));
-            if (productStream.collect(Collectors.toList()).size() <= 3) {
-                return ResponseEntity.ok(productStream.collect(Collectors.toList()));
+            // filter products out of range
+            List<Product> collect1 = allByUserIdNot.stream()
+                    .filter(product -> filterProximity(user, lat, lng, product))
+                    .sorted()
+                    .collect(Collectors.toList());
+
+            if (collect1.size() <= 3) {
+                return ResponseEntity.ok(collect1);
             }
             // exclude disliked products
-
 
 
             // sort by descending proximity
@@ -76,7 +80,7 @@ public class ProductController {
             // sort by descending rating
             // prefer previous bought products
 
-            return ResponseEntity.ok(productStream.collect(Collectors.toList()));
+            return ResponseEntity.ok(collect1);
         }
         return ResponseEntity.notFound().build();
     }
