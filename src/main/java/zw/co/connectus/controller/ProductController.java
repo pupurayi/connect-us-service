@@ -6,13 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.connectus.dal.entity.Product;
+import zw.co.connectus.dal.entity.User;
 import zw.co.connectus.dal.repository.ProductRepository;
+import zw.co.connectus.dal.repository.UserProductRatingRepository;
+import zw.co.connectus.service.UserServiceImpl;
 import zw.co.connectus.service.mapper.DtoMapper;
 import zw.co.connectus.service.model.CreateProductDto;
+import zw.co.connectus.service.model.UserDto;
 import zw.co.connectus.util.ResponseDto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/product")
@@ -23,6 +30,12 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private UserProductRatingRepository userProductRatingRepository;
+
+    @Autowired
+    private UserServiceImpl userService;
 
     @Autowired
     DtoMapper mapper;
@@ -44,8 +57,67 @@ public class ProductController {
     }
 
     @GetMapping("/recommended/user/{userId}")
-    public List<Product> findRecommendedProducts(@PathVariable("userId") UUID userId, @RequestParam("lat") double lat, @RequestParam("lng") String lng) {
-        return productRepository.findAll();
+    public ResponseEntity<List<Product>> findRecommendedProducts(@PathVariable("userId") UUID userId, @RequestParam("lat") double lat, @RequestParam("lng") double lng) {
+        Optional<User> byId = userService.findById(userId);
+        if (byId.isPresent()) {
+            User user = byId.get();
+            List<Product> allByUserIdNot = productRepository.findAllByUserIdNot(userId.toString());
+
+            Stream<Product> productStream = allByUserIdNot.stream().filter(product -> filterProximity(user, lat, lng, product));
+            if (productStream.collect(Collectors.toList()).size() <= 3) {
+                return ResponseEntity.ok(productStream.collect(Collectors.toList()));
+            }
+            // exclude disliked products
+
+
+
+            // sort by descending proximity
+            // sort by descending price
+            // sort by descending rating
+            // prefer previous bought products
+
+            return ResponseEntity.ok(productStream.collect(Collectors.toList()));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        if (unit == 'K') {
+            dist = dist * 1.609344;
+        } else if (unit == 'N') {
+            dist = dist * 0.8684;
+        }
+        return (dist);
+    }
+
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    /*::  This function converts decimal degrees to radians             :*/
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    /*::  This function converts radians to decimal degrees             :*/
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
+
+    private boolean filterProximity(User user, double lat, double lng, Product product) {
+        try {
+            double k = distance(lat, lng, product.getLat(), product.getLng(), 'K');
+            if (k <= user.getGeofenceRange()) {
+                return true;
+            }
+        } catch (Exception ignore) {
+        }
+        return false;
     }
 
     @GetMapping("/search/{userId}")

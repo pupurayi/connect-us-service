@@ -32,6 +32,11 @@ public class UserServiceImpl {
         return userRepository.findByMsisdn(msisdn);
     }
 
+    public Optional<User> findById(UUID userId) {
+
+        return userRepository.findById(userId);
+    }
+
     public CheckDto check(String msisdn) {
 
         final Optional<User> byMsisdn = findByMsisdn(msisdn);
