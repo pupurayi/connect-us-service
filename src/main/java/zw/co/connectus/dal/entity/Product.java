@@ -27,7 +27,7 @@ public class Product extends JpaBaseEntity {
     private String imageFirst;
     private Double lat;
     private Double lng;
-    private int rating = 3;
+    private Float rating = 2.5f;
 
     public String getUserId() {
         return userId;
@@ -93,11 +93,11 @@ public class Product extends JpaBaseEntity {
         this.lng = lng;
     }
 
-    public int getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 }
