@@ -5,10 +5,6 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div id="iframeDisplay"></div>
+[[${markerList}]]
 </body>
-<script>
-    document.getElementById("iframeDisplay").innerHTML = "<iframe width=\"100%\" height=\"600px\"  style=\"border:0\" loading=\"lazy\" allowfullscreen\n" +
-        "        src=\"https://www.google.com/maps/embed/v1/directions?key=AIzaSyCfGKU4Ee79CxE4Y0Paed83OuZA1TTKwUM&origin=[[${currentLat}]],[[${currentLng}]]&destination=[[${destinationLat}]],[[${destinationLng}]]\"></iframe>";
-</script>
 </html>
