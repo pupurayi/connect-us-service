@@ -41,7 +41,7 @@ public class ProductController {
     }
 
     @GetMapping("/search/{userId}")
-    public List<Product> searchProducts(@PathVariable("userId") UUID userId, @RequestParam("category") String category, @RequestParam("name") String name, @RequestParam("sortBy") String sortBy) {
+    public List<Product> searchProducts(@PathVariable("userId") UUID userId, @RequestParam("category") String category, @RequestParam("name") String name, @RequestParam("lat") double lat, @RequestParam("lng") String lng, @RequestParam("sortBy") String sortBy) {
         return productRepository.findAll();
     }
 

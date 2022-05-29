@@ -6,100 +6,72 @@ public class CreateProductDto {
 	private String category;
 	private String name;
 	private String description;
-	private double price;
+	private Double price;
 	private String imageFirst;
-	private String imageSecond;
-	private double lat;
-	private double lng;
-
-
-	public String getCategory() {
-
-		return category;
-	}
-
-	public void setCategory(String category) {
-
-		this.category = category;
-	}
+	private Double lat;
+	private Double lng;
 
 	public String getUserId() {
-
 		return userId;
 	}
 
 	public void setUserId(String userId) {
-
 		this.userId = userId;
 	}
 
-	public String getName() {
+	public String getCategory() {
+		return category;
+	}
 
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
-
 		this.name = name;
 	}
 
 	public String getDescription() {
-
 		return description;
 	}
 
 	public void setDescription(String description) {
-
 		this.description = description;
 	}
 
-	public double getPrice() {
-
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
-
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
 	public String getImageFirst() {
-
 		return imageFirst;
 	}
 
 	public void setImageFirst(String imageFirst) {
-
 		this.imageFirst = imageFirst;
 	}
 
-	public String getImageSecond() {
-
-		return imageSecond;
-	}
-
-	public void setImageSecond(String imageSecond) {
-
-		this.imageSecond = imageSecond;
-	}
-
-	public double getLat() {
-
+	public Double getLat() {
 		return lat;
 	}
 
-	public void setLat(double lat) {
-
+	public void setLat(Double lat) {
 		this.lat = lat;
 	}
 
-	public double getLng() {
-
+	public Double getLng() {
 		return lng;
 	}
 
-	public void setLng(double lng) {
-
+	public void setLng(Double lng) {
 		this.lng = lng;
 	}
 }

@@ -6,7 +6,6 @@ import zw.co.connectus.util.JpaBaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 
 /**
  * Product or Service
@@ -23,100 +22,82 @@ public class Product extends JpaBaseEntity {
     private String name;
     @Column(columnDefinition = "TEXT")
     private String description;
-    private BigDecimal price;
+    private Double price;
     @Column(columnDefinition = "TEXT")
     private String imageFirst;
-    private BigDecimal lat;
-    private BigDecimal lng;
+    private Double lat;
+    private Double lng;
     private int rating = 3;
 
-    public String getCategory() {
-
-        return category;
-    }
-
-    public void setCategory(String category) {
-
-        this.category = category;
-    }
-
     public String getUserId() {
-
         return userId;
     }
 
     public void setUserId(String userId) {
-
         this.userId = userId;
     }
 
-    public String getName() {
+    public String getCategory() {
+        return category;
+    }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getName() {
         return name;
     }
 
     public void setName(String name) {
-
         this.name = name;
     }
 
     public String getDescription() {
-
         return description;
     }
 
     public void setDescription(String description) {
-
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
-
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
-
+    public void setPrice(Double price) {
         this.price = price;
     }
 
     public String getImageFirst() {
-
         return imageFirst;
     }
 
     public void setImageFirst(String imageFirst) {
-
         this.imageFirst = imageFirst;
     }
 
-    public BigDecimal getLat() {
-
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(BigDecimal lat) {
-
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
-    public BigDecimal getLng() {
-
+    public Double getLng() {
         return lng;
     }
 
-    public void setLng(BigDecimal lng) {
-
+    public void setLng(Double lng) {
         this.lng = lng;
     }
 
     public int getRating() {
-
         return rating;
     }
 
     public void setRating(int rating) {
-
         this.rating = rating;
     }
 }
