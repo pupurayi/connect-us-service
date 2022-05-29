@@ -78,6 +78,7 @@ public class ProductController {
             List<Product> collect2 = collect1.stream().filter(product -> isNotDisliked(product, disliked)).collect(Collectors.toList());
             return ResponseEntity.ok(collect2);
         }
+        // todo filter 10 products prioritize those that you bought before
         return ResponseEntity.notFound().build();
     }
 
@@ -135,9 +136,13 @@ public class ProductController {
     }
 
     @GetMapping("/rating/user/{userId}")
-    public List<Product> getProductsForUserRating(@PathVariable("userId") UUID userId) {
-        // least rated products
-        // todo rating syncer scheduled 1 hour
-        return productRepository.findAll().subList(0, 2);
+    public ResponseEntity<List<Product>> getProductsForUserRating(@PathVariable("userId") UUID userId) {
+        Optional<User> byId = userService.findById(userId);
+        if (byId.isPresent()) {
+            User user = byId.get();
+            List<Product> allByUserIdNot = productRepository.findAllByUserIdNot(userId.toString());
+            return ResponseEntity.ok(allByUserIdNot); // limit 2
+        }
+        return ResponseEntity.notFound().build();
     }
 }
