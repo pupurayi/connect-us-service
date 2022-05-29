@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.connectus.dal.entity.Product;
 import zw.co.connectus.dal.entity.User;
+import zw.co.connectus.dal.entity.UserProductRating;
 import zw.co.connectus.dal.repository.ProductRepository;
 import zw.co.connectus.dal.repository.UserProductRatingRepository;
 import zw.co.connectus.service.UserServiceImpl;
@@ -15,6 +16,7 @@ import zw.co.connectus.service.model.CreateProductDto;
 import zw.co.connectus.service.model.UserDto;
 import zw.co.connectus.util.ResponseDto;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -63,27 +65,30 @@ public class ProductController {
             User user = byId.get();
             List<Product> allByUserIdNot = productRepository.findAllByUserIdNot(userId.toString());
 
-            // filter products out of range
+            // filter products out of range and sort by rating
             List<Product> collect1 = allByUserIdNot.stream()
                     .filter(product -> filterProximity(user, lat, lng, product))
-//                    .sorted()
+                    .sorted(Comparator.comparing(Product::getRating))
                     .collect(Collectors.toList());
-
             if (collect1.size() <= 3) {
                 return ResponseEntity.ok(collect1);
             }
-            // exclude disliked products
-
-
-            // sort by descending proximity
-            // sort by descending price
-            // sort by descending rating
-            // prefer previous bought products
-
+            List<String> disliked = userProductRatingRepository.findAllByUserIdAndLikedIsFalse(userId.toString())
+                    .stream().map(UserProductRating::getProductId).collect(Collectors.toList());
+            collect1 = collect1.stream().filter(product -> isNotDisliked(product, disliked)).collect(Collectors.toList());
             return ResponseEntity.ok(collect1);
         }
         return ResponseEntity.notFound().build();
     }
+
+    private boolean isNotDisliked(Product product, List<String> disliked) {
+        String productId = product.getId().toString();
+        if (disliked.contains(productId)) {
+            return false;
+        }
+        return true;
+    }
+
 
     private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
         double theta = lon1 - lon2;
