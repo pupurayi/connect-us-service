@@ -16,10 +16,7 @@ import zw.co.connectus.service.model.CreateProductDto;
 import zw.co.connectus.service.model.UserDto;
 import zw.co.connectus.util.ResponseDto;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -140,8 +137,40 @@ public class ProductController {
         Optional<User> byId = userService.findById(userId);
         if (byId.isPresent()) {
             User user = byId.get();
-            List<Product> allByUserIdNot = productRepository.findAllByUserIdNot(userId.toString());
-            return ResponseEntity.ok(allByUserIdNot); // limit 2
+            try {
+                List<Product> allByUserIdNot = productRepository.findAllByUserIdNot(userId.toString());
+
+                List<UserProductRating> ratings = userProductRatingRepository.findAllByUserIdOrderByUpdatedAsc(userId.toString());
+                List<String> ratingsProductIds = ratings.stream().map(UserProductRating::getProductId).collect(Collectors.toList());
+
+                List<Product> suggest = new LinkedList<>();
+                for (Product product : allByUserIdNot) {
+                    if (!ratingsProductIds.contains(product.getId().toString())) {
+                        suggest.add(product);
+                    }
+                }
+                if (suggest.size() >= 3) {
+                    return ResponseEntity.ok(suggest.subList(0, 3));
+                }
+                boolean status = true;
+                int count = 0;
+                while (status) {
+                    Optional<Product> byId1 = productRepository.findById(UUID.fromString(ratingsProductIds.get(count)));
+                    if (byId1.isPresent()) {
+                        suggest.add(byId1.get());
+                        if (count < 4) {
+                            count++;
+                        } else {
+                            status = false;
+                        }
+                    }
+                }
+                return ResponseEntity.ok(suggest.subList(0, 3));
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+
+
         }
         return ResponseEntity.notFound().build();
     }

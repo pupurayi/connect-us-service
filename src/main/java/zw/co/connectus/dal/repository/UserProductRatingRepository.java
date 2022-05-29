@@ -12,5 +12,7 @@ import java.util.UUID;
 public interface UserProductRatingRepository extends JpaRepository<UserProductRating, UUID> {
     List<UserProductRating> findAllByUserIdAndLikedIsFalse(String userId);
 
+    List<UserProductRating> findAllByUserIdOrderByUpdatedAsc(String userId);
+
     Optional<UserProductRating> findByUserIdAndProductId(String userId, String productId);
 }
