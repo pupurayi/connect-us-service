@@ -135,10 +135,10 @@ public class ProductController {
             User user = byId.get();
             List<Product> all = productRepository.findAllByUserIdNot(userId.toString());
             if (category != null) {
-                all = all.stream().filter(product -> product.getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
+                all = all.stream().filter(product -> !product.getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
             }
             if (name != null) {
-                all = all.stream().filter(product -> product.getName().toLowerCase().contains(name)).collect(Collectors.toList());
+                all = all.stream().filter(product -> !product.getName().toLowerCase().contains(name)).collect(Collectors.toList());
             }
             if (lat != 0 && lng != 0) {
                 all = all.stream().filter(product -> filterProximity(user, lat, lng, product)).collect(Collectors.toList());
