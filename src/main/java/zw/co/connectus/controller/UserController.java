@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import zw.co.connectus.dal.entity.Order;
 import zw.co.connectus.dal.entity.Product;
 import zw.co.connectus.dal.entity.User;
+import zw.co.connectus.dal.repository.OrderRepository;
 import zw.co.connectus.service.UserServiceImpl;
 import zw.co.connectus.service.mapper.DtoMapper;
 import zw.co.connectus.service.model.AuthResponseDto;
@@ -28,6 +30,9 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @GetMapping(path = "/check/{msisdn}")
     public CheckDto check(@PathVariable("msisdn") String msisdn) {
@@ -67,7 +72,14 @@ public class UserController {
     @GetMapping("/record-product-order/{userId}")
     public ResponseEntity<UserDto> recordProductOrder(@PathVariable("userId") UUID userId, @RequestParam("productId") UUID productId) {
 
-        // TODO record
+
+        try {
+            Order order = new Order();
+            order.setUserId(userId.toString());
+            order.setProductId(productId.toString());
+            orderRepository.save(order);
+        } catch (Exception ignore) {
+        }
         return userService.getUserById(userId);
     }
 

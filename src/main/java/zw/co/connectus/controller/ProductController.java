@@ -71,6 +71,9 @@ public class ProductController {
             List<String> disliked = userProductRatingRepository.findAllByUserIdAndLikedIsFalse(userId.toString())
                     .stream().map(UserProductRating::getProductId).collect(Collectors.toList());
             List<Product> collect2 = collect1.stream().filter(product -> isNotDisliked(product, disliked)).collect(Collectors.toList());
+            if (collect2.size() >= 10) {
+                return ResponseEntity.ok(collect2.subList(0, 10));
+            }
             return ResponseEntity.ok(collect2);
         }
         // todo filter 10 products prioritize those that you bought before
