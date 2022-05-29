@@ -75,13 +75,13 @@ public class ProductController {
             }
             List<String> disliked = userProductRatingRepository.findAllByUserIdAndLikedIsFalse(userId.toString())
                     .stream().map(UserProductRating::getProductId).collect(Collectors.toList());
-            collect1 = collect1.stream().filter(product -> isNotDisliked(product, disliked)).collect(Collectors.toList());
+            collect1 = collect1.stream().filter(product -> isDisliked(product, disliked)).collect(Collectors.toList());
             return ResponseEntity.ok(collect1);
         }
         return ResponseEntity.notFound().build();
     }
 
-    private boolean isNotDisliked(Product product, List<String> disliked) {
+    private boolean isDisliked(Product product, List<String> disliked) {
         String productId = product.getId().toString();
         if (disliked.contains(productId)) {
             return true;
