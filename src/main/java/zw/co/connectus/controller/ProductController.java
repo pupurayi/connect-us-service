@@ -75,8 +75,8 @@ public class ProductController {
             }
             List<String> disliked = userProductRatingRepository.findAllByUserIdAndLikedIsFalse(userId.toString())
                     .stream().map(UserProductRating::getProductId).collect(Collectors.toList());
-            collect1 = collect1.stream().filter(product -> isDisliked(product, disliked)).collect(Collectors.toList());
-            return ResponseEntity.ok(collect1);
+            List<Product> collect2 = collect1.stream().filter(product -> isDisliked(product, disliked)).collect(Collectors.toList());
+            return ResponseEntity.ok(collect2);
         }
         return ResponseEntity.notFound().build();
     }
