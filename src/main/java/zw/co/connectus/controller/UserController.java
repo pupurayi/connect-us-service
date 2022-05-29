@@ -1,18 +1,13 @@
 package zw.co.connectus.controller;
 
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.connectus.dal.entity.Order;
-import zw.co.connectus.dal.entity.Product;
-import zw.co.connectus.dal.entity.User;
 import zw.co.connectus.dal.repository.OrderRepository;
 import zw.co.connectus.service.UserServiceImpl;
-import zw.co.connectus.service.mapper.DtoMapper;
-import zw.co.connectus.service.model.AuthResponseDto;
 import zw.co.connectus.service.model.CheckDto;
 import zw.co.connectus.service.model.SignInDto;
 import zw.co.connectus.service.model.UserDto;

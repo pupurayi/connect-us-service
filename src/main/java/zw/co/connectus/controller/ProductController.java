@@ -129,8 +129,39 @@ public class ProductController {
     }
 
     @GetMapping("/search/{userId}")
-    public List<Product> searchProducts(@PathVariable("userId") UUID userId, @RequestParam("category") String category, @RequestParam("name") String name, @RequestParam("lat") double lat, @RequestParam("lng") String lng, @RequestParam("sortBy") String sortBy) {
-        return productRepository.findAll();
+    public ResponseEntity<List<Product>> searchProducts(@PathVariable("userId") UUID userId, @RequestParam("category") String category, @RequestParam("name") String name, @RequestParam("lat") double lat, @RequestParam("lng") double lng, @RequestParam("sortBy") String sortBy) {
+        Optional<User> byId = userService.findById(userId);
+        if (byId.isPresent()) {
+            User user = byId.get();
+            List<Product> all = productRepository.findAllByUserIdNot(userId.toString());
+            if (category != null) {
+                all = all.stream().filter(product -> product.getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
+            }
+            if (name != null) {
+                all = all.stream().filter(product -> product.getName().toLowerCase().contains(name)).collect(Collectors.toList());
+            }
+            if (lat != 0 && lng != 0) {
+                all = all.stream().filter(product -> filterProximity(user, lat, lng, product)).collect(Collectors.toList());
+            }
+            if (sortBy != null) {
+                switch (sortBy) {
+                    case "Price":
+                        all = all.stream().sorted(Comparator.comparing(Product::getPrice)).collect(Collectors.toList());
+                        break;
+                    case "Rating":
+                        all = all.stream().sorted(Comparator.comparing(Product::getRating)).collect(Collectors.toList());
+                        break;
+                    case "Name":
+                        all = all.stream().sorted(Comparator.comparing(Product::getName)).collect(Collectors.toList());
+                        break;
+                    case "Created":
+                        all = all.stream().sorted(Comparator.comparing(Product::getCreated)).collect(Collectors.toList());
+                        break;
+                }
+            }
+            return ResponseEntity.ok(all);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/rating/user/{userId}")
@@ -173,4 +204,6 @@ public class ProductController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    // TODO rating, map
 }
