@@ -13,12 +13,10 @@ import zw.co.connectus.dal.repository.UserProductRatingRepository;
 import zw.co.connectus.service.UserServiceImpl;
 import zw.co.connectus.service.mapper.DtoMapper;
 import zw.co.connectus.service.model.CreateProductDto;
-import zw.co.connectus.service.model.UserDto;
 import zw.co.connectus.util.ResponseDto;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/product")
@@ -149,25 +147,24 @@ public class ProductController {
                         suggest.add(product);
                     }
                 }
-                if (suggest.size() >= 3) {
-                    return ResponseEntity.ok(suggest.subList(0, 3));
+                if (suggest.size() != 0) {
+                    if (suggest.size() >= 3) {
+                        return ResponseEntity.ok(suggest.subList(0, 3));
+                    } else {
+                        return ResponseEntity.ok(suggest);
+                    }
                 }
-                boolean status = true;
                 int count = 0;
-                while (status) {
+                while (suggest.size() < 3 && count < ratingsProductIds.size()) {
                     Optional<Product> byId1 = productRepository.findById(UUID.fromString(ratingsProductIds.get(count)));
                     if (byId1.isPresent()) {
                         suggest.add(byId1.get());
-                        if (count < 4) {
-                            count++;
-                        } else {
-                            status = false;
-                        }
                     }
+                    count++;
                 }
-                return ResponseEntity.ok(suggest.subList(0, 3));
+                return ResponseEntity.ok(suggest);
             } catch (Exception e) {
-                e.getStackTrace();
+                logger.error("Exception {} {}" + e.getMessage(), e);
             }
             return ResponseEntity.ok(new LinkedList<>());
         }
