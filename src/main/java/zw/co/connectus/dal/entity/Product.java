@@ -16,107 +16,107 @@ import java.math.BigDecimal;
 @Where(clause = "deleted is null")
 public class Product extends JpaBaseEntity {
 
-	// add Product Tags, add Recommended Products endpoint, add rate random products' endpoint, hotlink whatsapp & location
+    // add Product Tags, add Recommended Products endpoint, add rate random products' endpoint, hotlink whatsapp & location
 
-	private String     userId;
-	private String     category;
-	private String     name;
-	@Column(columnDefinition = "TEXT")
-	private String     description;
-	private BigDecimal price;
-	@Column(columnDefinition = "TEXT")
-	private String     imageFirst;
-	private BigDecimal lat    = BigDecimal.valueOf(-17.779172389675505);
-	private BigDecimal lng    = BigDecimal.valueOf(31.014082820096977);
-	private int        rating = 3;
+    private String userId;
+    private String category;
+    private String name;
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    private BigDecimal price;
+    @Column(columnDefinition = "TEXT")
+    private String imageFirst;
+    private BigDecimal lat;
+    private BigDecimal lng;
+    private int rating = 3;
 
-	public String getCategory() {
+    public String getCategory() {
 
-		return category;
-	}
+        return category;
+    }
 
-	public void setCategory(String category) {
+    public void setCategory(String category) {
 
-		this.category = category;
-	}
+        this.category = category;
+    }
 
-	public String getUserId() {
+    public String getUserId() {
 
-		return userId;
-	}
+        return userId;
+    }
 
-	public void setUserId(String userId) {
+    public void setUserId(String userId) {
 
-		this.userId = userId;
-	}
+        this.userId = userId;
+    }
 
-	public String getName() {
+    public String getName() {
 
-		return name;
-	}
+        return name;
+    }
 
-	public void setName(String name) {
+    public void setName(String name) {
 
-		this.name = name;
-	}
+        this.name = name;
+    }
 
-	public String getDescription() {
+    public String getDescription() {
 
-		return description;
-	}
+        return description;
+    }
 
-	public void setDescription(String description) {
+    public void setDescription(String description) {
 
-		this.description = description;
-	}
+        this.description = description;
+    }
 
-	public BigDecimal getPrice() {
+    public BigDecimal getPrice() {
 
-		return price;
-	}
+        return price;
+    }
 
-	public void setPrice(BigDecimal price) {
+    public void setPrice(BigDecimal price) {
 
-		this.price = price;
-	}
+        this.price = price;
+    }
 
-	public String getImageFirst() {
+    public String getImageFirst() {
 
-		return imageFirst;
-	}
+        return imageFirst;
+    }
 
-	public void setImageFirst(String imageFirst) {
+    public void setImageFirst(String imageFirst) {
 
-		this.imageFirst = imageFirst;
-	}
+        this.imageFirst = imageFirst;
+    }
 
-	public BigDecimal getLat() {
+    public BigDecimal getLat() {
 
-		return lat;
-	}
+        return lat;
+    }
 
-	public void setLat(BigDecimal lat) {
+    public void setLat(BigDecimal lat) {
 
-		this.lat = lat;
-	}
+        this.lat = lat;
+    }
 
-	public BigDecimal getLng() {
+    public BigDecimal getLng() {
 
-		return lng;
-	}
+        return lng;
+    }
 
-	public void setLng(BigDecimal lng) {
+    public void setLng(BigDecimal lng) {
 
-		this.lng = lng;
-	}
+        this.lng = lng;
+    }
 
-	public int getRating() {
+    public int getRating() {
 
-		return rating;
-	}
+        return rating;
+    }
 
-	public void setRating(int rating) {
+    public void setRating(int rating) {
 
-		this.rating = rating;
-	}
+        this.rating = rating;
+    }
 }

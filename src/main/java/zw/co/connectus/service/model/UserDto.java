@@ -2,6 +2,8 @@ package zw.co.connectus.service.model;
 
 import zw.co.connectus.util.BaseDto;
 
+import javax.persistence.Column;
+
 public class UserDto extends BaseDto {
 
     private String msisdn;
@@ -9,6 +11,7 @@ public class UserDto extends BaseDto {
     private String firstName;
     private String lastName;
     private String avatar;
+    private Double geofenceRange;
     private String gender;
     private String dob;
     private String ethnicity;
@@ -55,6 +58,14 @@ public class UserDto extends BaseDto {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Double getGeofenceRange() {
+        return geofenceRange;
+    }
+
+    public void setGeofenceRange(Double geofenceRange) {
+        this.geofenceRange = geofenceRange;
     }
 
     public String getGender() {

@@ -91,6 +91,7 @@ public class UserServiceImpl {
             user.setFirstName(userDto.getFirstName());
             user.setLastName(userDto.getLastName());
             user.setAvatar(userDto.getAvatar());
+            user.setGeofenceRange(userDto.getGeofenceRange());
             user.setGender(userDto.getGender());
             user.setDob(userDto.getDob());
             user.setEthnicity(userDto.getEthnicity());

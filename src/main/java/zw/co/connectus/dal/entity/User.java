@@ -23,6 +23,8 @@ public class User extends JpaBaseEntity {
     @Column(columnDefinition = "TEXT")
     private String avatar;
     @Column
+    private Double geofenceRange = 10d;
+    @Column
     private String gender;
     @Column
     private String dob;
@@ -75,6 +77,14 @@ public class User extends JpaBaseEntity {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Double getGeofenceRange() {
+        return geofenceRange;
+    }
+
+    public void setGeofenceRange(Double geofenceRange) {
+        this.geofenceRange = geofenceRange;
     }
 
     public String getGender() {
