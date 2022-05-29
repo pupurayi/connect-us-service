@@ -9,6 +9,7 @@ import zw.co.connectus.dal.entity.Product;
 import zw.co.connectus.dal.repository.ProductRepository;
 import zw.co.connectus.service.mapper.DtoMapper;
 import zw.co.connectus.service.model.CreateProductDto;
+import zw.co.connectus.util.ResponseDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,9 +33,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<String> delete(@PathVariable("productId") UUID productId) {
+    public ResponseEntity<ResponseDto> delete(@PathVariable("productId") UUID productId) {
         productRepository.deleteById(productId);
-        return ResponseEntity.ok("Successfully deleted product!");
+        return ResponseEntity.ok(new ResponseDto("success", "Successfully deleted!", null));
     }
 
     @GetMapping("/user/{userId}")
