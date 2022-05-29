@@ -66,7 +66,7 @@ public class ProductController {
             // filter products out of range
             List<Product> collect1 = allByUserIdNot.stream()
                     .filter(product -> filterProximity(user, lat, lng, product))
-                    .sorted()
+//                    .sorted()
                     .collect(Collectors.toList());
 
             if (collect1.size() <= 3) {
