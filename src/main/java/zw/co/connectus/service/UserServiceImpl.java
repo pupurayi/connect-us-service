@@ -114,10 +114,15 @@ public class UserServiceImpl {
         Optional<User> byId = userRepository.findById(userId);
         if (byId.isPresent()) {
             for (var entry : ratings.entrySet()) {
-
-                UserProductRating userProductRating = new UserProductRating();
-                userProductRating.setUserId(userId.toString());
-                userProductRating.setProductId(entry.getKey().toString());
+                Optional<UserProductRating> byUserIdAndProductId = userProductRatingRepository.findByUserIdAndProductId(userId.toString(), entry.getKey().toString());
+                UserProductRating userProductRating;
+                if (byUserIdAndProductId.isPresent()) {
+                    userProductRating = byUserIdAndProductId.get();
+                } else {
+                    userProductRating = new UserProductRating();
+                    userProductRating.setUserId(userId.toString());
+                    userProductRating.setProductId(entry.getKey().toString());
+                }
                 userProductRating.setLiked(entry.getValue());
                 userProductRatingRepository.save(userProductRating);
             }
