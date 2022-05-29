@@ -169,8 +169,7 @@ public class ProductController {
             } catch (Exception e) {
                 e.getStackTrace();
             }
-
-
+            return ResponseEntity.ok(new LinkedList<>());
         }
         return ResponseEntity.notFound().build();
     }
