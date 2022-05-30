@@ -44,7 +44,7 @@ public class RatingServiceImpl {
     public float calculateRating(Product product) {
 
         float v = getRandomNumber(2, 5) + (getRandomNumber(0, 9) / 10);
-        return v > 5 ? 5 : v;
+        return v > 5 ? getRandomNumber(2, 5) : v;
     }
 
     public float getRandomNumber(int min, int max) {
