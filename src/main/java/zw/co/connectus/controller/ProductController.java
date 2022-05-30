@@ -136,8 +136,8 @@ public class ProductController {
             User user = byId.get();
             Stream<Product> productStream = productRepository.findAllByUserIdNot(userId.toString())
                     .stream()
-                    .filter(product -> category == null || product.getCategory().equalsIgnoreCase(category))
-                    .filter(product -> name == null || product.getName().toLowerCase().contains(name.toLowerCase()))
+                    .filter(product -> category == null || category.isEmpty() || product.getCategory().equalsIgnoreCase(category))
+                    .filter(product -> name == null || name.isEmpty() || product.getName().toLowerCase().contains(name.toLowerCase()))
                     .filter(product -> (lat == 0 || lng == 0) || filterProximity(user, lat, lng, product));
             if (sortBy != null) {
                 switch (sortBy) {

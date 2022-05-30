@@ -31,9 +31,14 @@ public class RatingServiceImpl {
     @Scheduled(fixedDelay = 3600 * 1000)
     public void scheduledRatingManager() {
         List<Product> allProducts = productRepository.findAll();
-        List<UserProductRating> allUserProductRatings = userProductRatingRepository.findAll();
-        List<Order> allOrders = orderRepository.findAll();
         for (Product product : allProducts) {
+            calculateRating(product);
+
         }
     }
+
+    public double calculateRating(Product product) {
+        return 0;
+    }
+
 }
