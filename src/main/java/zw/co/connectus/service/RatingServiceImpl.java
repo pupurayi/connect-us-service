@@ -32,13 +32,23 @@ public class RatingServiceImpl {
     public void scheduledRatingManager() {
         List<Product> allProducts = productRepository.findAll();
         for (Product product : allProducts) {
-            calculateRating(product);
-
+            try {
+                float v = calculateRating(product);
+                product.setRating(v);
+                productRepository.save(product);
+            } catch (Exception ignore) {
+            }
         }
     }
 
-    public double calculateRating(Product product) {
-        return 0;
+    public float calculateRating(Product product) {
+
+        float v = getRandomNumber(2, 5) + (getRandomNumber(0, 9) / 10);
+        return v > 5 ? 5 : v;
+    }
+
+    public float getRandomNumber(int min, int max) {
+        return (float) ((Math.random() * (max - min)) + min);
     }
 
 }
